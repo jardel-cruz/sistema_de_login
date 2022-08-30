@@ -9,13 +9,21 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nome: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       idade: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       saldo: {
         type: Sequelize.INTEGER
+      },
+      email: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
+
       },
       securet: {
         type: Sequelize.STRING
