@@ -24,6 +24,17 @@ module.exports = {
         }
     },
 
+    logout: async (req, res) => {
+        try {
+            const { token } = req.authInfo;
+            await userServices.logoutDoUsuario(token);
+
+            return res.status(201).json({ msg: "Logout concluido!" });
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    },
+
     teste: async (req, res) => {
         try {
             const usuario = req.user;

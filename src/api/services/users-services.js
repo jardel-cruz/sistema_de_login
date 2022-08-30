@@ -5,9 +5,10 @@ const dotenv = require("dotenv").config();
 const mongoDb = require("../repositories/mongoDB");
 const mysql = require("../repositories/mysql");
 const validarDados = require("../../validators/validarDadosDoCadastro");
+const { Redis } = require("../../api/redis/client");
 
 const sql = mysql("Users");
-
+const redis = Redis();
 
 //funções =========================================================================================================//
 
@@ -19,7 +20,7 @@ async function gerarSenhaHash (senha) {
 
 async function gerarToken (id, securetKey, expires) {
     const payload = { id: id };
-    const token = jwt.sign(payload, securetKey, {expiresIn: "5m"});
+    const token = jwt.sign(payload, securetKey, {expiresIn: expires});
 
     return token;
 }
@@ -57,6 +58,16 @@ module.exports = {
             const token = await gerarToken(Number(usuarioId), securetKey, "5m");
 
             return token;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    },
+
+    logoutDoUsuario: async (token) => {
+        try {
+            const resultado = await redis.setToken(token);
+
+            return resultado;
         } catch (error) {
             throw new Error(error.message);
         }

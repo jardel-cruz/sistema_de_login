@@ -8,5 +8,6 @@ router
     .post("/users", usersControllers.criarConta)
     .post("/users/login", passport.authenticate("local", { session: false}), usersControllers.login)
     .get("/users/t", passport.authenticate("bearer", { session: false }), usersControllers.teste)
+    .post("/users/logout", passport.authenticate("bearer", { session: false }), usersControllers.logout)
 
 module.exports = router
