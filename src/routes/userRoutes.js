@@ -1,13 +1,15 @@
 const { Router } = require("express");
+const passport = require("passport");
+
+const validarUser = require("../middlewares/creat-user-valid");
 const usersControllers = require("../api/controllers/users-controllers");
-const passport = require("passport")
 
 const router = Router({ caseSensitive: true });
 
 router
-    .post("/users", usersControllers.criarConta)
+    .post("/users",validarUser ,usersControllers.criarConta)
     .post("/users/login", passport.authenticate("local", { session: false}), usersControllers.login)
-    .get("/users/t", passport.authenticate("bearer", { session: false }), usersControllers.teste)
+    .post("/users/t", validarUser, usersControllers.teste)
     .post("/users/logout", passport.authenticate("bearer", { session: false }), usersControllers.logout)
 
 module.exports = router

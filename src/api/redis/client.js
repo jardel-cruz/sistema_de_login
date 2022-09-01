@@ -2,10 +2,6 @@ const redis = require("redis");
 
 const client = redis.createClient();
 
-client.on("error", (e) => {
-    console.log(" Redis erro", e);
-});
-
 async function soket (callbak) {
     try {
         await client.connect();

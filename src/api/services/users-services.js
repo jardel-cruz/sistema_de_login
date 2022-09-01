@@ -2,11 +2,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 
-const mongoDb = require("../repositories/mongoDB");
+const mongooseQuerys = require("../repositories/mongoDB");
 const mysql = require("../repositories/mysql");
-const validarDados = require("../../validators/validarDadosDoCadastro");
 const { Redis } = require("../../api/redis/client");
 
+const mongoDb = mongooseQuerys();
 const sql = mysql("Users");
 const redis = Redis();
 
@@ -30,9 +30,8 @@ async function gerarToken (id, securetKey, expires) {
 module.exports = {
     criarUsuario: async (dados) => {
         try {
-            // await validarDados(dados);
 
-            const { nome, idade, email, senha} = dados;
+            const { nome, idade, email, senha } = dados;
             const senhaHash = await gerarSenhaHash(senha);
             const dadosSecurite = await (await mongoDb.criar({ senha: senhaHash })).id;
 

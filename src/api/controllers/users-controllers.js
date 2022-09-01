@@ -37,9 +37,7 @@ module.exports = {
 
     teste: async (req, res) => {
         try {
-            const usuario = req.user;
-
-            return res.status(200).json(usuario);
+            return res.status(200).json({ msg: true });
         } catch (error) {
             return res.status(500).json(error.message);
         }
