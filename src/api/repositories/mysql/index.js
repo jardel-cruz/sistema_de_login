@@ -50,9 +50,9 @@ function sqlRequires (model) {
 
         atualizarUm: async (dados, id) => {
             try {
-                const registro = await atualModel.update(dados, { where: Number(id) });
-
-                return registro;
+                const registro = await atualModel.update(dados, { where: id });
+                
+                return dados;
             } catch (error) {
                 throw new Error(error.message);
             }

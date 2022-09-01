@@ -7,9 +7,9 @@ const usersControllers = require("../api/controllers/users-controllers");
 const router = Router({ caseSensitive: true });
 
 router
+    .post("/users/t", validarUser, usersControllers.teste)
     .post("/users",validarUser ,usersControllers.criarConta)
     .post("/users/login", passport.authenticate("local", { session: false}), usersControllers.login)
-    .post("/users/t", validarUser, usersControllers.teste)
     .post("/users/logout", passport.authenticate("bearer", { session: false }), usersControllers.logout)
 
 module.exports = router
