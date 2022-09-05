@@ -1,5 +1,3 @@
-const passport = require("passport")
-
 const users = require("./userRoutes");
 const historico = require("./transacaoRouter");
 

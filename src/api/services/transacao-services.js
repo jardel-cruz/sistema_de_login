@@ -1,5 +1,4 @@
 const mySql = require("../repositories/mysql");
-
 const historicos = mySql("Historicos");
 const users = mySql("Users");
 

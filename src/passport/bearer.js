@@ -2,7 +2,6 @@ const passport = require("passport");
 const BearerStrategy = require("passport-http-bearer").Strategy;
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
-
 const {Redis} = require("../api/redis/client");
 const mysql = require("../api/repositories/mysql");
 

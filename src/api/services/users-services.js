@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
-
 const mongooseQuerys = require("../repositories/mongoDB");
 const mysql = require("../repositories/mysql");
 const { Redis } = require("../../api/redis/client");

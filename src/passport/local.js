@@ -15,6 +15,7 @@ passport.use(
     }, async (email, senha, done) => {
         try {
             const usuario = await sql.busacarUm({ email: email });
+
             const securet = (await mongoDb.buscar(usuario.securet)).senha;
 
             const verificacao = await bcrypt.compare(senha, securet);

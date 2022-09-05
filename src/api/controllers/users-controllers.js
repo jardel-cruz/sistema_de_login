@@ -15,7 +15,8 @@ module.exports = {
     login: async (req, res) => {
         try {
             const usuario = req.user;
-            const token = await userServices.logarUsuario(usuario.id);
+            const { id } = usuario
+            const token = await userServices.logarUsuario(id);
 
             res.set({ Authorization: token });
             return res.status(200).json({ status: "Logado" });

@@ -11,10 +11,10 @@ module.exports = async (req, res, next) => {
     try {
         const { nome, idade, email, senha } = req.body;
 
-        const nomeTamanho = nome ? nome.length > 5 : false;
-        const idadeTamanho = idade >= 18;
+        const nomeTamanho = typeof nome === "string" && nome.length > 5;
+        const idadeTamanho = typeof idade === "number" && idade >= 18;
         const emailResult = await emailValide(email);
-        const senhaTamanho = senha ? senha.length > 5 : false; 
+        const senhaTamanho = typeof senha === "string" && senha.length > 5; 
 
         const arrayValidacoes = [
             ["Nome", nomeTamanho],
