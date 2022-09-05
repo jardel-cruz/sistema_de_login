@@ -14,12 +14,11 @@ module.exports = {
 
     login: async (req, res) => {
         try {
-            const usuario = req.user;
-            const { id } = usuario
-            const token = await userServices.logarUsuario(id);
+            const { id } = req.user;
+            const { accesToken, refreshToken } = await userServices.logarUsuario(id);
 
-            res.set({ Authorization: token });
-            return res.status(200).json({ status: "Logado" });
+            res.set({ Authorization: accesToken });
+            return res.status(200).json({ refreshToken });
         } catch (error) {
             return res.status(500).json(error.message);
         }

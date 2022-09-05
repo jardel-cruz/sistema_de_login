@@ -1,13 +1,16 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { randomBytes } = require("crypto");
+const moment = require("moment");
 const dotenv = require("dotenv").config();
 const mongooseQuerys = require("../repositories/mongoDB");
 const mysql = require("../repositories/mysql");
-const { Redis } = require("../../api/redis/client");
+const { blockList } = require("../redis/block-list");
+const { allowList } = require("../redis/allow-list");
+
 
 const mongoDb = mongooseQuerys();
 const sql = mysql("Users");
-const redis = Redis();
 
 //funções =========================================================================================================//
 
@@ -17,11 +20,23 @@ async function gerarSenhaHash (senha) {
     return hash
 }
 
-async function gerarToken (id, securetKey, expires) {
+async function accesTokenGenerete (id, securetKey, expires) {
     const payload = { id: id };
     const token = jwt.sign(payload, securetKey, {expiresIn: expires});
 
     return token;
+}
+
+async function gerarRafreshToken (usuarioId) {
+    try {
+        const token = randomBytes(25).toString("hex");
+        const expireAt = moment().add(5, "days").unix();
+        await allowList.setToken(token, usuarioId, expireAt);
+
+        return token;
+    } catch (error) {
+        throw new Error(error.message);
+    }
 }
 
 //==================================================================================================================//
@@ -53,9 +68,10 @@ module.exports = {
     logarUsuario: async (usuarioId) => {
         try {
             const securetKey = process.env.SECURET_KEY;
-            const token = await gerarToken(Number(usuarioId), securetKey, "5m");
+            const accesToken = await accesTokenGenerete(Number(usuarioId), securetKey, "15m");
+            const refreshToken = await gerarRafreshToken(Number(usuarioId));
 
-            return token;
+            return {accesToken, refreshToken};
         } catch (error) {
             throw new Error(error.message);
         }
@@ -63,7 +79,8 @@ module.exports = {
 
     logoutDoUsuario: async (token) => {
         try {
-            const resultado = await redis.setToken(token);
+            const expireAt = moment().add(15, "minutes").unix()
+            const resultado = await blockList.setToken(token, "", expireAt);
 
             return resultado;
         } catch (error) {

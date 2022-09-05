@@ -1,5 +1,4 @@
 const { Router } = require("express");
-
 const transacaoControllers = require("../api/controllers/transacao-controllers");
 
 const router = Router({ caseSensitive: true });

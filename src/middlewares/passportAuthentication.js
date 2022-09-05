@@ -14,7 +14,7 @@ async function bearer (req, res, next) {
     passport.authenticate(
         "bearer",
         { session: false },
-        (erro, usuario) => {
+        (erro, usuario, info) => {
             if (erro) {
                 return tratarErros[erro.name](req, res);
             }
@@ -24,6 +24,7 @@ async function bearer (req, res, next) {
             }
 
             req.user = usuario;
+            req.token = info;
 
             return next();
         }

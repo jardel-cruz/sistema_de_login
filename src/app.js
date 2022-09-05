@@ -2,14 +2,16 @@ const express = require("express");
 const bodyParcer = require("body-parser");
 const router = require("./routes");
 const dbMg = require("./config/mongooseConfg");
-const clienteRedis = require("./api/redis/client");
+const { socketBlockList } = require("./api/redis/block-list");
+const {socketAllowList} = require("./api/redis/allow-list");
 const { erro404, erroFatal } = require("./middlewares/erros");
 const { cabecalhoDaResposta } = require("./middlewares/cabecalho");
 const { bearer } = require("./middlewares/passportAuthentication");
 const LocalStrategy = require("./passport/local");
 const BearerStrategy = require("./passport/bearer");
 
-clienteRedis.soket(() => console.log("Conexão com o Redis bem sucedida"));
+socketBlockList();
+socketAllowList();
 
 dbMg.on("error", () => console.log("Erro de conexão com o MongoDb."));
 dbMg.once("open", () => console.log("Conexão estabelecida com o MongoDb."));
