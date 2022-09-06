@@ -9,7 +9,7 @@ async function socketAllowList () {
 
         console.log("O cliente do Redis 'allow-list' esta conectado");
     } catch (error) {
-        console.log("O cliente do Redis 'allow-list' esata com problemas", error);
+        console.log("O cliente do Redis 'allow-list' está com problemas", error);
     }
 }
 

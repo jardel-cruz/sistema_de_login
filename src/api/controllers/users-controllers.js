@@ -15,9 +15,9 @@ module.exports = {
     login: async (req, res) => {
         try {
             const { id } = req.user;
-            const { accesToken, refreshToken } = await userServices.logarUsuario(id);
+            const { accessToken, refreshToken } = await userServices.logarUsuario(id);
 
-            res.set({ Authorization: accesToken });
+            res.set({ Authorization: accessToken });
             return res.status(200).json({ refreshToken });
         } catch (error) {
             return res.status(500).json(error.message);
@@ -29,7 +29,7 @@ module.exports = {
             const { token } = req.authInfo;
             await userServices.logoutDoUsuario(token);
 
-            return res.status(201).json({ msg: "Logout concluido!" });
+            return res.status(201).json({ msg: "Logout concluído!" });
         } catch (error) {
             return res.status(500).json(error.message);
         }
