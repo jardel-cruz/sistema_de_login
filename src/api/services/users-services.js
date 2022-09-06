@@ -68,8 +68,8 @@ module.exports = {
     logarUsuario: async (usuarioId) => {
         try {
             const securetKey = process.env.SECURET_KEY;
-            const accesToken = await accesTokenGenerete(Number(usuarioId), securetKey, "15m");
-            const refreshToken = await gerarRafreshToken(Number(usuarioId));
+            const accesToken = await accesTokenGenerete(usuarioId, securetKey, "15m");
+            const refreshToken = await gerarRafreshToken(usuarioId);
 
             return {accesToken, refreshToken};
         } catch (error) {

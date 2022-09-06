@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParcer = require("body-parser");
+const morgan = require("morgan");
 const router = require("./routes");
 const dbMg = require("./config/mongooseConfg");
 const { socketBlockList } = require("./api/redis/block-list");
@@ -20,6 +21,7 @@ const app = express();
 
 app.use(bodyParcer.json());
 app.use(bodyParcer.urlencoded({ extended: false }));
+app.use(morgan("dev"));
 
 app.use("/tran", bearer);
 app.use(cabecalhoDaResposta);
