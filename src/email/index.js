@@ -1,13 +1,20 @@
 const nodemailer = require("nodemailer");
+require("dotenv").config();
+
+const {USER_EMAIL, USER_PASSWORD} = process.env;
 
 async function enviarEmail (email, url) {
-    const contaTeste = await nodemailer.createTestAccount();
+    // const contaTeste = await nodemailer.createTestAccount();
     const transportador = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        auth: contaTeste
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: USER_EMAIL,
+            pass: USER_PASSWORD
+        }
     });
-    const resultado = await transportador.sendMail({
+    await transportador.sendMail({
         from: "jardel@jardel333.com.br",
         to: email,
         subject: `Verificar email`,
@@ -15,7 +22,7 @@ async function enviarEmail (email, url) {
         
     });
 
-    console.log("URL:" + nodemailer.getTestMessageUrl(resultado))
+    // console.log("URL:" + nodemailer.getTestMessageUrl(resultado))
 
 }
 

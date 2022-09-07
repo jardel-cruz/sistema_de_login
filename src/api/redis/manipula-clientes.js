@@ -4,7 +4,10 @@ module.exports = (cliente, prefix) => {
             try {
                 const key = `${prefix} ${token}`;
                 await cliente.set(key , conteudo);
-                await cliente.expireAt(key, validade);
+
+                if (validade) {
+                    await cliente.expireAt(key, validade);
+                }
 
                 return "Ok";
             } catch (error) {

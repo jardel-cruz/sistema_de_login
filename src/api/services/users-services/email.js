@@ -1,8 +1,8 @@
 const { enviarEmail } = require("../../../email")
 
-async function emailDeVerificacao (destino, dominio, id) {
+async function emailDeVerificacao (destino, urlUnica) {
     try {
-        const url = `http://${dominio}/verificar_email/${id}`;
+        const url = urlUnica;
         enviarEmail(destino, url);
     } catch (error) {
         throw new Error("Error ao enviar o email");

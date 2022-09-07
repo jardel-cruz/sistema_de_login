@@ -7,7 +7,7 @@ const refreshToken = require("../middlewares/refreshToken");
 const router = Router({ caseSensitive: true });
 
 router
-    .post("/users/t", validarUser, usersControllers.teste)
+    .get("/users/verificar_email/:token", usersControllers.vericaEmail)
     .post("/users", validarUser ,usersControllers.criarConta)
     .post("/users/login", passport.authenticate("local", { session: false }), usersControllers.login)
     .post("/users/logout", [refreshToken, passport.authenticate("bearer", { session: false })], usersControllers.logout)

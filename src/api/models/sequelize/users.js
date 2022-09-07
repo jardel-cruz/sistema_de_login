@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     idade: DataTypes.INTEGER,
     saldo: DataTypes.INTEGER,
     email: DataTypes.STRING,
+    email_verificado: DataTypes.INTEGER,
     securet: DataTypes.STRING
   }, {
     sequelize,

@@ -16,23 +16,30 @@ module.exports = {
         try {
 
             const { nome, idade, email, senha } = dados;
-            const senhaHash = await bcrypt.hash(senha, 12);
-            const dadosSecurite = await (await mongoDb.criar({ senha: senhaHash })).id;
+            // const senhaHash = await bcrypt.hash(senha, 12);
+            // const dadosSecurite = await (await mongoDb.criar({ senha: senhaHash })).id;
             
-            const dadosUsuario = {
-                nome: nome,
-                idade: idade,
-                saldo: 0,
-                email: email,
-                securet: dadosSecurite
-            };
+            // const dadosUsuario = {
+            //     nome: nome,
+            //     idade: idade,
+            //     saldo: 0,
+            //     email: email,
+            //     email_verificado: false,
+            //     securet: dadosSecurite
+            // };
             
-            const usuario = await sql.criarUm(dadosUsuario);
+            // const usuario = await sql.criarUm(dadosUsuario);
             
             const dominio = process.env.DOMINIO;
-            emailDeVerificacao(email, dominio, usuario.id)
 
-            return usuario;
+            const tokenUrl = await refresh.gerarRefreshToken();
+            // await allowList.setToken(tokenUrl, usuario.id);
+            
+            const url = `http://${dominio}/users/verificar_email/${tokenUrl}`;
+
+            await emailDeVerificacao(email, url)
+
+            return {usuario: "ok"};
         } catch (error) {
             throw new Error(error.message);
         }
@@ -60,6 +67,24 @@ module.exports = {
             return resultado;
         } catch (error) {
             throw new Error(error.message);
+        }
+    },
+
+    emailVerificado: async (token) => {
+        try {
+            const id = await allowList.getToken(token)
+
+            if (!id) {
+                throw new Error("Falha ao cadastrar email")
+            }
+
+            const resultado = await sql.atualizarUm({ email_verificado: true }, { id: id });
+
+            await allowList.excludeToken(token);
+
+            return resultado;
+        } catch (error) {
+            throw error;
         }
     }
 }

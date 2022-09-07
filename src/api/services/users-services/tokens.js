@@ -12,7 +12,7 @@ module.exports = {
     },
 
     refresh: {
-        async gerarRefreshToken (usuarioId) {
+        async gerarRefreshToken () {
             try {
                 const token = randomBytes(25).toString("hex");
         

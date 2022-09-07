@@ -35,6 +35,17 @@ module.exports = {
         }
     },
 
+    vericaEmail: async (req, res) => {
+        try {
+            const { token } = req.params;
+            const resultado = await userServices.emailVerificado(token)
+
+            return res.status(200).json(resultado);
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    },
+
     teste: async (req, res) => {
         try {
             return res.status(200).json({ msg: true });

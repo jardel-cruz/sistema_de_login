@@ -23,7 +23,10 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true,
         allowNull: false
-
+      },
+      email_verificado: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
       },
       securet: {
         type: Sequelize.STRING
