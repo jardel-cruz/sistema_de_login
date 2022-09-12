@@ -16,30 +16,30 @@ module.exports = {
         try {
 
             const { nome, idade, email, senha } = dados;
-            // const senhaHash = await bcrypt.hash(senha, 12);
-            // const dadosSecurite = await (await mongoDb.criar({ senha: senhaHash })).id;
+            const senhaHash = await bcrypt.hash(senha, 12);
+            const dadosSecurite = await (await mongoDb.criar({ senha: senhaHash })).id;
             
-            // const dadosUsuario = {
-            //     nome: nome,
-            //     idade: idade,
-            //     saldo: 0,
-            //     email: email,
-            //     email_verificado: false,
-            //     securet: dadosSecurite
-            // };
+            const dadosUsuario = {
+                nome: nome,
+                idade: idade,
+                saldo: 0,
+                email: email,
+                email_verificado: false,
+                securet: dadosSecurite
+            };
             
-            // const usuario = await sql.criarUm(dadosUsuario);
+            const usuario = await sql.criarUm(dadosUsuario);
             
             const dominio = process.env.DOMINIO;
 
             const tokenUrl = await refresh.gerarRefreshToken();
-            // await allowList.setToken(tokenUrl, usuario.id);
+            await allowList.setToken(tokenUrl, usuario.id);
             
             const url = `http://${dominio}/users/verificar_email/${tokenUrl}`;
 
             await emailDeVerificacao(email, url)
 
-            return {usuario: "ok"};
+            return usuario;
         } catch (error) {
             throw new Error(error.message);
         }

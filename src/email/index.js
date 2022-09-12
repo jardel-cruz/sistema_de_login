@@ -15,7 +15,7 @@ async function enviarEmail (email, url) {
         }
     });
     await transportador.sendMail({
-        from: "jardel@jardel333.com.br",
+        from: USER_EMAIL,
         to: email,
         subject: `Verificar email`,
         text: `Clique no link para verificar seu email ${url}`
