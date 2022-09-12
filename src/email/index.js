@@ -4,7 +4,6 @@ require("dotenv").config();
 const {USER_EMAIL, USER_PASSWORD} = process.env;
 
 async function enviarEmail (email, url) {
-    // const contaTeste = await nodemailer.createTestAccount();
     const transportador = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
@@ -21,8 +20,6 @@ async function enviarEmail (email, url) {
         text: `Clique no link para verificar seu email ${url}`
         
     });
-
-    // console.log("URL:" + nodemailer.getTestMessageUrl(resultado))
 
 }
 
