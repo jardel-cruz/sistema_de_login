@@ -3,9 +3,10 @@ const historicos = mySql("Historicos");
 const users = mySql("Users");
 
 module.exports = {
-    historico: async (user_id) => {
+    historico: async (usuario) => {
         try {
-            const historicoUsario = await historicos.buscarTodos({ user_id: user_id });
+            const { id } = usuario;
+            const historicoUsario = await historicos.buscarTodos({ user_id: id });
 
             return historicoUsario;
         } catch (error) {

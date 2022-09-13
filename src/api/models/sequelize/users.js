@@ -19,7 +19,16 @@ module.exports = (sequelize, DataTypes) => {
     saldo: DataTypes.INTEGER,
     email: DataTypes.STRING,
     email_verificado: DataTypes.INTEGER,
-    securet: DataTypes.STRING
+    securet: DataTypes.STRING,
+    cargo: {
+      type: DataTypes.STRING,
+      validate: {
+        isIn: {
+          args: [["admin", "assinante", "editor"]],
+          msg: "Cargo invalido"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Users',

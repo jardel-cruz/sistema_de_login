@@ -25,7 +25,8 @@ module.exports = {
                 saldo: 0,
                 email: email,
                 email_verificado: false,
-                securet: dadosSecurite
+                securet: dadosSecurite,
+                cargo: "assinante"
             };
             
             const usuario = await sql.criarUm(dadosUsuario);
@@ -73,7 +74,7 @@ module.exports = {
     emailVerificado: async (token) => {
         try {
             const id = await allowList.getToken(token)
-
+            console.log(token)
             if (!id) {
                 throw new Error("Falha ao cadastrar email")
             }
